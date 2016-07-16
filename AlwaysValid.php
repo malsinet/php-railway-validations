@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ValidationException class file
+ * AlwaysValid class file
  *
  * @category   Validations
  * @package    Railway Validations
@@ -15,11 +15,14 @@
 
 namespace github\malsinet\Railway\Validations;
 
+use github\malsinet\Railway\Validations\Contracts\Valid;
+use github\malsinet\Railway\Validations\Contracts\Request;
+
 
 /**
- * Validation Exception class
+ * AlwaysValid class
  *
- * Basic Request class 
+ * This validation always return true
  *
  * @category   Validations
  * @package    Railway Validations
@@ -29,17 +32,34 @@ namespace github\malsinet\Railway\Validations;
  * @version    Release: 0.1.0
  * @link       http://github.com/malsinet/railway-validations
  */
-final class ValidationException extends \Exception
-{    
+final class AlwaysValid implements Valid
+{
+
+    /**
+     * Request object
+     *
+     * @var Request
+     */
+    public $req;
+
     /**
      * Class constructor
      *
-     * @param string    $message  Exception message
-     * @param int       $code     Exception code
-     * @param Exception $previous Previous exception
+     * @param Request $request Request to be validated
      */
-    public function __construct($message, $code = 0, Exception $previous = null) {
-        parent::__construct($message, $code, $previous);
-    }   
-}
+    public function __construct(Request $request)
+    {
+        $this->req = $request;
+    }
 
+    /**
+     * Always returns true
+     *
+     * @return bool
+     */
+    public function validate()
+    {
+        return true;
+    }
+
+}

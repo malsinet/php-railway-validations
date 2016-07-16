@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ValidationException class file
+ * Request interface file
  *
  * @category   Validations
  * @package    Railway Validations
@@ -13,13 +13,11 @@
  */
 
 
-namespace github\malsinet\Railway\Validations;
+namespace github\malsinet\Railway\Validations\Contracts;
 
 
 /**
- * Validation Exception class
- *
- * Basic Request class 
+ * Request interface
  *
  * @category   Validations
  * @package    Railway Validations
@@ -29,17 +27,7 @@ namespace github\malsinet\Railway\Validations;
  * @version    Release: 0.1.0
  * @link       http://github.com/malsinet/railway-validations
  */
-final class ValidationException extends \Exception
-{    
-    /**
-     * Class constructor
-     *
-     * @param string    $message  Exception message
-     * @param int       $code     Exception code
-     * @param Exception $previous Previous exception
-     */
-    public function __construct($message, $code = 0, Exception $previous = null) {
-        parent::__construct($message, $code, $previous);
-    }   
+interface Request
+{
+    public function get($param);
 }
-

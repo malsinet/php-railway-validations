@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ValidationException class file
+ * DefaultRequest class file
  *
  * @category   Validations
  * @package    Railway Validations
@@ -17,7 +17,7 @@ namespace github\malsinet\Railway\Validations;
 
 
 /**
- * Validation Exception class
+ * DefaultRequest class
  *
  * Basic Request class 
  *
@@ -29,17 +29,38 @@ namespace github\malsinet\Railway\Validations;
  * @version    Release: 0.1.0
  * @link       http://github.com/malsinet/railway-validations
  */
-final class ValidationException extends \Exception
-{    
+final class DefaultRequest implements Contracts\Request
+{
+    
+    /**
+     * Request parameters
+     *
+     * @var array
+     */
+    private $params;
+    
     /**
      * Class constructor
      *
-     * @param string    $message  Exception message
-     * @param int       $code     Exception code
-     * @param Exception $previous Previous exception
+     * @param array $params Request parameters
      */
-    public function __construct($message, $code = 0, Exception $previous = null) {
-        parent::__construct($message, $code, $previous);
-    }   
-}
+    public function __construct(array $params)
+    {
+        $this->params = $params;
+    }
 
+    /**
+     * Returns a request parameter value
+     *
+     * @return mixed
+     */
+    public function get($name)
+    {
+        $value = null;
+        if (!empty($this->params[$name])) {
+            $value = $this->params[$name];
+        }
+        return $value;
+    }
+
+}
