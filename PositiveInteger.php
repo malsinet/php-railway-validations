@@ -1,41 +1,89 @@
 <?php
 
-namespace VAT\Routes\Validations;
+/**
+ * RequiredField class file
+ *
+ * @category   Validations
+ * @package    Railway Validations
+ * @author     Martin Alsinet <martin@alsinet.com.ar>
+ * @copyright  2016 @MartinAlsinet
+ * @license    MIT License
+ * @version    Release: 0.1.0
+ * @link       http://github.com/malsinet/railway-validations
+ */
 
-use VAT\Contracts\Valid;
 
-final class PositiveInteger implements Valid
+namespace github\malsinet\Railway\Validations;
+
+
+/**
+ * RequiredField class
+ *
+ * Throws an exception if the required $field is empty
+ *
+ * @category   Validations
+ * @package    Railway Validations
+ * @author     Martin Alsinet <martin@alsinet.com.ar>
+ * @copyright  2016 @MartinAlsinet
+ * @license    MIT License
+ * @version    Release: 0.1.0
+ * @link       http://github.com/malsinet/railway-validations
+ */
+final class PositiveInteger implements Contracts\Valid
 {
 
+    /**
+     * Previous link in the validation chain
+     *
+     * @var Contracts\Valid
+     */
     private $origin;
 
+    /**
+     * Required field name
+     *
+     * @var string
+     */
     private $field;
     
+    /**
+     * Request object
+     *
+     * @var Contracts\Request
+     */
     public $req;
-
-    public function __construct($origin, $field)
+   
+    /**
+     * Class constructor
+     *
+     * @param Contracts\Valid  $origin Previous link in the validation chain
+     * @param string           $field  Required field name
+     */
+    public function __construct(Contracts\Valid $origin, $field)
     {
         $this->origin = $origin;
         $this->field = $field;
         $this->req = $origin->req;
     }
 
+    /**
+     * Checks if the request field is a positive integer 
+     * and executes the next validation in the chain
+     *
+     * @return bool
+     */
     public function validate()
     {
         $number = $this->req->get($this->field);
-        if (!is_int($number) ||
-            (is_string($number) && !preg_match("/^[1-9][0-9]*$/", $number)) ||
-            (is_int($number) && (1 > $number))
-        ) {
+        if (!filter_var(
+            $number,
+            FILTER_VALIDATE_INT,
+            array("options" => array("min_range" => 1)))
+        ){
             throw new ValidationException("Field [{$this->field}={$number}] must be a positive Integer");
         }
-                      
+
         return $this->origin->validate();
     }
 
-    public function toRow()
-    {
-        return $this->origin->toRow();
-    }
-    
 }
