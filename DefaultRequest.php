@@ -57,7 +57,7 @@ final class DefaultRequest implements Contracts\Request
     public function get($name)
     {
         $value = null;
-        if (!empty($this->params[$name])) {
+        if (isset($this->params[$name])) {
             $value = $this->params[$name];
         }
         return $value;
