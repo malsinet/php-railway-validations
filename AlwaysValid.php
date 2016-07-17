@@ -16,7 +16,6 @@
 namespace github\malsinet\Railway\Validations;
 
 use github\malsinet\Railway\Validations\Contracts\Valid;
-use github\malsinet\Railway\Validations\Contracts\Request;
 
 
 /**
@@ -45,9 +44,9 @@ final class AlwaysValid implements Valid
     /**
      * Class constructor
      *
-     * @param Request $request Request to be validated
+     * @param mixed $request Request to be validated
      */
-    public function __construct(Request $request)
+    public function __construct($request)
     {
         $this->req = $request;
     }
