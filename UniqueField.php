@@ -85,7 +85,7 @@ final class UniqueField implements Contracts\Valid
     {
         $value = $this->req->get($this->field);
         if ($this->items->find($value)) {
-            throw new ValidationException("Field {$this->field} [$value] is not unique");
+            throw new ValidationException("Field {$this->field} [$value] already exists");
         }
         return $this->origin->validate();
     }

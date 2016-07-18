@@ -80,9 +80,7 @@ final class Longitude implements Contracts\Valid
             (is_numeric($longitude) && (180  < $longitude)) ||
             (is_numeric($longitude) && (-180 > $longitude))
         ) {
-
-            
-            throw new ValidationException("Field [{$this->field}={$longitude}] must be a valid longitude (-180/+180)");
+            throw new ValidationException("Field {$this->field} [{$longitude}] must be a valid longitude (-180/+180)");
         }
 
         return $this->origin->validate();

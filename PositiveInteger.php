@@ -80,7 +80,7 @@ final class PositiveInteger implements Contracts\Valid
             FILTER_VALIDATE_INT,
             array("options" => array("min_range" => 1)))
         ){
-            throw new ValidationException("Field [{$this->field}={$number}] must be a positive Integer");
+            throw new ValidationException("Field {$this->field} [{$number}] must be a positive Integer");
         }
 
         return $this->origin->validate();

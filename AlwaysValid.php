@@ -33,7 +33,6 @@ use github\malsinet\Railway\Validations\Contracts\Valid;
  */
 final class AlwaysValid implements Valid
 {
-
     /**
      * Request object
      *

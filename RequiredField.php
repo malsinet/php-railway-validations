@@ -76,7 +76,7 @@ final class RequiredField implements Contracts\Valid
     {
         $value = $this->req->get($this->field);
         if (empty($value)) {
-            throw new ValidationException("Field [{$this->field}:{$value}] is required");
+            throw new ValidationException("Field [{$this->field}] is required");
         }
         return $this->origin->validate();
     }
