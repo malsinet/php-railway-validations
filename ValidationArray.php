@@ -74,7 +74,10 @@ final class ValidationArray implements Contracts\Valid
     public function validate()
     {
         if (!is_array($this->validations)) {
-            throw new ValidationException("Field [validations] must be an array");
+            throw new ValidationException("Validations array must be an array");
+        }
+        if (empty($this->validations)) {
+            throw new ValidationException("Validations array should have at least one validation");
         }
         foreach ($this->validations as $item) {
             $item->validate();
