@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Latitude class file
+ * ValidationArray class file
  *
  * @category   Validations
  * @package    Railway Validations
@@ -17,9 +17,9 @@ namespace github\malsinet\Railway\Validations;
 
 
 /**
- * Latitude class
+ * ValidationArray class
  *
- * Throws an exception if the required $field is not a latitude
+ * Throws an exception if any the validation array items is not valid
  *
  * @category   Validations
  * @package    Railway Validations
@@ -29,9 +29,8 @@ namespace github\malsinet\Railway\Validations;
  * @version    Release: 0.1.0
  * @link       http://github.com/malsinet/railway-validations
  */
-final class Latitude implements Contracts\Valid
+final class ValidationArray implements Contracts\Valid
 {
-
     /**
      * Previous link in the validation chain
      *
@@ -40,13 +39,13 @@ final class Latitude implements Contracts\Valid
     private $origin;
 
     /**
-     * Latitude field name
+     * Validation Array
      *
-     * @var string
+     * @var array
      */
-    private $field;
+    private $validations;
     
-    /**
+   /**
      * Request object
      *
      * @var Contracts\Request
@@ -57,40 +56,28 @@ final class Latitude implements Contracts\Valid
      * Class constructor
      *
      * @param Contracts\Valid  $origin Previous link in the validation chain
-     * @param string           $field  Required field name
+     * @param array            $items  Validations array
      */
-    public function __construct(Contracts\Valid $origin, $field)
+    public function __construct(Contracts\Valid $origin, $validations)
     {
         $this->origin = $origin;
-        $this->field = $field;
         $this->req = $origin->req;
-    }
+        $this->validations = $validations;
+     }
 
     /**
-     * Checks if the request field is a latitude
+     * Checks if the validations array items are valid
      * and executes the next validation in the chain
      *
      * @return bool
      */
     public function validate()
     {
-        $latitude = $this->req->get($this->field);
-
-        $options = array(
-            "options" => array(
-                "min_range" => 0,
-                "max_range" => 90
-            )
-        );
-        
-        if (!is_numeric($latitude) ||
-            (is_string($latitude) && !preg_match("/^[0-9][0-9]?(\.[0-9]+)?$/", $latitude)) ||
-            (is_numeric($latitude) && (90  < $latitude)) ||
-            (is_numeric($latitude) && (-90 > $latitude))
-        ) {
-
-            
-            throw new ValidationException("Field [{$this->field}={$latitude}] must be a valid latitude (-90/+90)");
+        if (!is_array($this->validations)) {
+            throw new ValidationException("Field [validations] must be an array");
+        }
+        foreach ($this->validations as $item) {
+            $item->validate();
         }
 
         return $this->origin->validate();

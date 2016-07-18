@@ -30,8 +30,7 @@ namespace github\malsinet\Railway\Validations;
  * @link       http://github.com/malsinet/railway-validations
  */
 final class DefaultRequest implements Contracts\Request
-{
-    
+{    
     /**
      * Request parameters
      *
