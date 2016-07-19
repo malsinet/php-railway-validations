@@ -59,11 +59,11 @@ class LatitudeTest extends TestCase
         $field->validate();
     }
 
- 	public function testNegativeLatitudeThrowsException()
+ 	public function testLowerThanMinusNinetyLatitudeThrowsException()
 	{
         $field = new Validations\Latitude(
             new Validations\AlwaysValid(
-                new Validations\DefaultRequest(array("lat" => "-12"))
+                new Validations\DefaultRequest(array("lat" => "-112"))
             ),
             "lat"
         );
@@ -94,7 +94,18 @@ class LatitudeTest extends TestCase
         $this->assertTrue($field->validate(), "Valid latitude should return true");
     }
 
-	public function testMinLatitudeReturnsTrue()
+ 	public function testMinLatitudeReturnsTrue()
+	{
+        $field = new Validations\Latitude(
+            new Validations\AlwaysValid(
+                new Validations\DefaultRequest(array("lat" => "-90"))
+            ),
+            "lat"
+        );
+        $this->assertTrue($field->validate(), "Valid latitude should return true");
+    }
+
+ 	public function testZeroLatitudeReturnsTrue()
 	{
         $field = new Validations\Latitude(
             new Validations\AlwaysValid(
