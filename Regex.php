@@ -1,7 +1,7 @@
 <?php
 
 /**
- * RequiredField class file
+ * Regex class file
  *
  * @category   Validations
  * @package    Railway Validations
@@ -17,9 +17,9 @@ namespace github\malsinet\Railway\Validations;
 
 
 /**
- * RequiredField class
+ * Regex class
  *
- * Throws an exception if the required $field is empty
+ * Throws an exception if the required $field is not a latitude
  *
  * @category   Validations
  * @package    Railway Validations
@@ -29,7 +29,7 @@ namespace github\malsinet\Railway\Validations;
  * @version    Release: 0.1.0
  * @link       http://github.com/malsinet/railway-validations
  */
-final class PositiveInteger implements Contracts\Valid
+final class Regex implements Contracts\Valid
 {
 
     /**
@@ -40,11 +40,18 @@ final class PositiveInteger implements Contracts\Valid
     private $origin;
 
     /**
-     * Required field name
+     * Value field name
      *
      * @var string
      */
     private $field;
+    
+    /**
+     * Regex
+     *
+     * @var string
+     */
+    private $regex;
     
     /**
      * Request object
@@ -59,32 +66,40 @@ final class PositiveInteger implements Contracts\Valid
      * @param Contracts\Valid  $origin Previous link in the validation chain
      * @param string           $field  Required field name
      */
-    public function __construct(Contracts\Valid $origin, $field)
+    public function __construct(Contracts\Valid $origin, $field, $regex)
     {
         $this->origin = $origin;
         $this->field = $field;
+        $this->regex = $regex;
         $this->req = $origin->req;
     }
 
     /**
-     * Checks if the request field is a positive integer 
+     * Checks if the request field matches the regular expression
      * and executes the next validation in the chain
      *
      * @return bool
      */
     public function validate()
     {
-        $number = $this->req->get($this->field);
-        if (!filter_var(
-            $number,
-            FILTER_VALIDATE_INT,
-            array("options" => array("min_range" => 1)))
-        ){
+        $value = $this->req->get($this->field);
+        if (empty($this->regex)) {
+            throw new ValidationException("Regex cannot be empty");
+        }
+        $old_error = error_reporting(0);
+        $match = preg_match($this->regex, $value);
+        if ($match === false) {
+            $error = error_get_last();
             throw new ValidationException(
-                "Field {$this->field} [{$number}] must be a positive Integer"
+                "Regex [$this->regex] failed with error: $error"
             );
         }
-
+        error_reporting($old_error);
+        if (!preg_match($this->regex, $value)) {
+            throw new ValidationException(
+                "Field {$this->field} [{$value}] does not match [regex:{$this->regex}]"
+            );
+        }
         return $this->origin->validate();
     }
 

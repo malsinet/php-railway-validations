@@ -76,7 +76,9 @@ final class Email implements Contracts\Valid
     {
         $email = $this->req->get($this->field);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new ValidationException("Field {$this->field} [{$email}] must be a valid email");
+            throw new ValidationException(
+                "Field {$this->field} [{$email}] must be a valid email"
+            );
         }
         return $this->origin->validate();
     }

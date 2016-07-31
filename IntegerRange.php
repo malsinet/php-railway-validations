@@ -1,7 +1,7 @@
 <?php
 
 /**
- * RequiredField class file
+ * IntegerRange class file
  *
  * @category   Validations
  * @package    Railway Validations
@@ -17,7 +17,7 @@ namespace github\malsinet\Railway\Validations;
 
 
 /**
- * RequiredField class
+ * IntegerRange class
  *
  * Throws an exception if the required $field is empty
  *
@@ -29,7 +29,7 @@ namespace github\malsinet\Railway\Validations;
  * @version    Release: 0.1.0
  * @link       http://github.com/malsinet/railway-validations
  */
-final class PositiveInteger implements Contracts\Valid
+final class IntegerRange implements Contracts\Valid
 {
 
     /**
@@ -40,11 +40,25 @@ final class PositiveInteger implements Contracts\Valid
     private $origin;
 
     /**
-     * Required field name
+     * Value field name
      *
      * @var string
      */
     private $field;
+    
+    /**
+     * Minimum value
+     *
+     * @var integer
+     */
+    private $min;
+    
+    /**
+     * Maximum value
+     *
+     * @var integer
+     */
+    private $max;
     
     /**
      * Request object
@@ -59,10 +73,12 @@ final class PositiveInteger implements Contracts\Valid
      * @param Contracts\Valid  $origin Previous link in the validation chain
      * @param string           $field  Required field name
      */
-    public function __construct(Contracts\Valid $origin, $field)
+    public function __construct(Contracts\Valid $origin, $field, $min, $max)
     {
         $this->origin = $origin;
         $this->field = $field;
+        $this->min = $min;
+        $this->max = $max;
         $this->req = $origin->req;
     }
 
@@ -78,13 +94,16 @@ final class PositiveInteger implements Contracts\Valid
         if (!filter_var(
             $number,
             FILTER_VALIDATE_INT,
-            array("options" => array("min_range" => 1)))
-        ){
+            array("options" => array(
+                "min_range" => $this->min,
+                "max_range" => $this->max
+            ))
+        )){
             throw new ValidationException(
-                "Field {$this->field} [{$number}] must be a positive Integer"
+                "Field {$this->field} [{$number}] must be ".
+                "an integer between [{$this->min}] and [{$this->max}]"
             );
         }
-
         return $this->origin->validate();
     }
 

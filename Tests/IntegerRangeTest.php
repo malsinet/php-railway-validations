@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PositiveIntegerTest file
+ * IntegerRangeTest file
  *
  * @category   Tests
  * @package    Railway Validations
@@ -20,7 +20,7 @@ use github\malsinet\Railway\Validations as V;
 
 
 /**
- * PositiveIntegerTest class
+ * IntegerRangeTest class
  *
  * Test should throw an exception if the $field is not a positive integer
  *
@@ -32,68 +32,68 @@ use github\malsinet\Railway\Validations as V;
  * @version    Release: 0.1.0
  * @link       http://github.com/malsinet/railway-validations
  */
-class PositiveIntegerTest extends TestCase
+class IntegerRangeTest extends TestCase
 {
 
 	public function testEmptyValueThrowsException()
 	{
-        $field = new V\PositiveInteger(
+        $field = new V\IntegerRange(
             new V\AlwaysValid(
                 new V\DefaultRequest(array())
             ),
-            "number"
+            $fld="number", $min=25, $max=89
         );
         $this->expectException(V\ValidationException::class);
         $field->validate();
     }
 
-	public function testNegativeIntegerThrowsException()
+	public function testLowerThanMinThrowsException()
 	{
-        $value = -33;
-        $field = new V\PositiveInteger(
+        $value = 13;
+        $field = new V\IntegerRange(
             new V\AlwaysValid(
                 new V\DefaultRequest(array("number" => $value))
             ),
-            "number"
+            $fld="number", $min=25, $max=89
         );
         $this->expectException(V\ValidationException::class);
         $field->validate();
     }
 
-	public function testNegativeStringThrowsException()
+	public function testHigherThanMaxThrowsException()
 	{
-        $value = "-44";
-        $field = new V\PositiveInteger(
+        $value = 133;
+        $field = new V\IntegerRange(
             new V\AlwaysValid(
                 new V\DefaultRequest(array("number" => $value))
             ),
-            "number"
+            $fld="number", $min=25, $max=89
         );
         $this->expectException(V\ValidationException::class);
         $field->validate();
     }
 
-	public function testNegativeFloatStringThrowsException()
+	public function testFloatStringThrowsException()
 	{
-        $value = "-4.3";
-        $field = new V\PositiveInteger(
+        $value = "44.3";
+        $field = new V\IntegerRange(
             new V\AlwaysValid(
                 new V\DefaultRequest(array("number" => $value))
             ),
-            "number"
+            $fld="number", $min=25, $max=89
         );
         $this->expectException(V\ValidationException::class);
         $field->validate();
     }
 
-	public function testNegativeFloatThrowsException()
+	public function testFloatThrowsException()
 	{
-        $value = -4.3;
-        $field = new V\PositiveInteger(
+        $value = 44.3;
+        $field = new V\IntegerRange(
             new V\AlwaysValid(
                 new V\DefaultRequest(array("number" => $value))
             ),
-            "number"
+            $fld="number", $min=25, $max=89
         );
         $this->expectException(V\ValidationException::class);
         $field->validate();
@@ -101,44 +101,78 @@ class PositiveIntegerTest extends TestCase
 
 	public function testLettersThrowsException()
 	{
-        $value = "4.ewewe222";
-        $field = new V\PositiveInteger(
+        $value = "4ewewe222";
+        $field = new V\IntegerRange(
             new V\AlwaysValid(
                 new V\DefaultRequest(array("number" => $value))
             ),
-            "number"
+            $fld="number", $min=25, $max=89
         );
         $this->expectException(V\ValidationException::class);
         $field->validate();
     }
 
- 	public function testValidIntegerReturnsTrue()
+ 	public function testMinValueReturnsTrue()
 	{
-        $value = 400;
-        $field = new V\PositiveInteger(
+        $value = 25;
+        $field = new V\IntegerRange(
             new V\AlwaysValid(
                 new V\DefaultRequest(array("number" => $value))
             ),
-            "number"
+            $fld="number", $min=25, $max=89
         );
         $this->assertTrue(
             $field->validate(),
-            "Validating a positive number [$value] should return true"
+            "Validating the minimum value [$value] in ".
+            "the range [$min - $max] should return true"
         );
     }
 
-	public function testValidStringReturnsTrue()
+ 	public function testMaxValueReturnsTrue()
 	{
-        $value = "400";
-        $field = new V\PositiveInteger(
+        $value = 89;
+        $field = new V\IntegerRange(
             new V\AlwaysValid(
                 new V\DefaultRequest(array("number" => $value))
             ),
-            "number"
+            $fld="number", $min=25, $max=89
         );
         $this->assertTrue(
             $field->validate(),
-            "Validating a positive number [$value] should return true"
+            "Validating the maximum value [$value] in ".
+            "the range [$min - $max] should return true"
+        );
+    }
+
+ 	public function testIntegerInsideRangeReturnsTrue()
+	{
+        $value = 40;
+        $field = new V\IntegerRange(
+            new V\AlwaysValid(
+                new V\DefaultRequest(array("number" => $value))
+            ),
+            $fld="number", $min=25, $max=89
+        );
+        $this->assertTrue(
+            $field->validate(),
+            "Validating a number [$value] inside ".
+            "the range [$min - $max] should return true"
+        );
+    }
+
+	public function testIntegerStringInsideRangeReturnsTrue()
+	{
+        $value = "40";
+        $field = new V\IntegerRange(
+            new V\AlwaysValid(
+                new V\DefaultRequest(array("number" => $value))
+            ),
+            $fld="number", $min=25, $max=89
+        );
+        $this->assertTrue(
+            $field->validate(),
+            "Validating a numeric string [$value] inside ".
+            "the range [$min - $max] should return true"
         );
     }
 

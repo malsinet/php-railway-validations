@@ -76,11 +76,15 @@ final class Latitude implements Contracts\Valid
     {
         $latitude = $this->req->get($this->field);
         if (!is_numeric($latitude) ||
-            (is_string($latitude) && !preg_match("/^-?[0-9][0-9]?(\.[0-9]+)?$/", $latitude)) ||
+            (is_string($latitude) &&
+             !preg_match("/^-?[0-9][0-9]?(\.[0-9]+)?$/", $latitude)
+            ) ||
             (is_numeric($latitude) && (90  < $latitude)) ||
             (is_numeric($latitude) && (-90 > $latitude))
         ) {            
-            throw new ValidationException("Field {$this->field} [{$latitude}] must be a valid latitude (-90/+90)");
+            throw new ValidationException(
+                "Field {$this->field} [{$latitude}] must be a valid latitude (-90/+90)"
+            );
         }
 
         return $this->origin->validate();

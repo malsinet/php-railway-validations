@@ -91,7 +91,10 @@ class LatitudeTest extends TestCase
             ),
             "lat"
         );
-        $this->assertTrue($field->validate(), "Valid latitude should return true");
+        $this->assertTrue(
+            $field->validate(),
+            "Valid latitude should return true"
+        );
     }
 
  	public function testMinLatitudeReturnsTrue()
@@ -102,7 +105,9 @@ class LatitudeTest extends TestCase
             ),
             "lat"
         );
-        $this->assertTrue($field->validate(), "Valid latitude should return true");
+        $this->assertTrue(
+            $field->validate(),
+            "Valid latitude should return true");
     }
 
  	public function testZeroLatitudeReturnsTrue()
@@ -113,7 +118,10 @@ class LatitudeTest extends TestCase
             ),
             "lat"
         );
-        $this->assertTrue($field->validate(), "Valid latitude should return true");
+        $this->assertTrue(
+            $field->validate(),
+            "Valid latitude should return true"
+        );
     }
 
 	public function testMaxLatitudeReturnsTrue()
@@ -124,7 +132,10 @@ class LatitudeTest extends TestCase
             ),
             "lat"
         );
-        $this->assertTrue($field->validate(), "Valid latitude should return true");
+        $this->assertTrue(
+            $field->validate(),
+            "Valid latitude should return true"
+        );
     }
 
 	public function testFloatLatitudeReturnsTrue()
@@ -135,7 +146,10 @@ class LatitudeTest extends TestCase
             ),
             "lat"
         );
-        $this->assertTrue($field->validate(), "Valid latitude should return true");
+        $this->assertTrue(
+            $field->validate(),
+            "Valid latitude should return true"
+        );
     }
 
 }
