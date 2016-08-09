@@ -91,7 +91,7 @@ final class IntegerRange implements Contracts\Valid
     public function validate()
     {
         $number = $this->req->get($this->field);
-        if (!filter_var(
+        if (false === filter_var(
             $number,
             FILTER_VALIDATE_INT,
             array("options" => array(

@@ -176,4 +176,52 @@ class IntegerRangeTest extends TestCase
         );
     }
 
+ 	public function testZeroInsideRangeReturnsTrue()
+	{
+        $value = 0;
+        $field = new V\IntegerRange(
+            new V\AlwaysValid(
+                new V\DefaultRequest(array("number" => $value))
+            ),
+            $fld="number", $min=-10, $max=89
+        );
+        $this->assertTrue(
+            $field->validate(),
+            "Validating zero [$value] inside ".
+            "the range [$min - $max] should return true"
+        );
+    }
+
+ 	public function testZeroAsMinValueReturnsTrue()
+	{
+        $value = 0;
+        $field = new V\IntegerRange(
+            new V\AlwaysValid(
+                new V\DefaultRequest(array("number" => $value))
+            ),
+            $fld="number", $min=0, $max=89
+        );
+        $this->assertTrue(
+            $field->validate(),
+            "Validating zero [$value] as minimum of ".
+            "the range [$min - $max] should return true"
+        );
+    }
+
+ 	public function testZeroAsMaxValueReturnsTrue()
+	{
+        $value = 0;
+        $field = new V\IntegerRange(
+            new V\AlwaysValid(
+                new V\DefaultRequest(array("number" => $value))
+            ),
+            $fld="number", $min=-300, $max=0
+        );
+        $this->assertTrue(
+            $field->validate(),
+            "Validating zero [$value] as maximum of ".
+            "the range [$min - $max] should return true"
+        );
+    }
+
 }
