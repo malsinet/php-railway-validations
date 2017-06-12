@@ -5,7 +5,7 @@
  *
  * @category   Validations
  * @package    Railway Validations
- * @author     Martin Alsinet <martin@alsinet.com.ar>
+ * @author     Martin Alsinet <martin@alsinet>
  * @copyright  2016 @MartinAlsinet
  * @license    MIT License
  * @version    Release: 0.1.0
@@ -21,7 +21,7 @@ namespace github\malsinet\Railway\Validations\Contracts;
  *
  * @category   Validations
  * @package    Railway Validations
- * @author     Martin Alsinet <martin@alsinet.com.ar>
+ * @author     Martin Alsinet <martin@alsinet>
  * @copyright  2016 @MartinAlsinet
  * @license    MIT License
  * @version    Release: 0.1.0

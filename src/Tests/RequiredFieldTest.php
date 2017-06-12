@@ -5,7 +5,7 @@
  *
  * @category   Tests
  * @package    Railway Validations
- * @author     Martin Alsinet <martin@alsinet.com.ar>
+ * @author     Martin Alsinet <martin@alsinet>
  * @copyright  2016 @MartinAlsinet
  * @license    MIT License
  * @version    Release: 0.1.0
@@ -26,7 +26,7 @@ use github\malsinet\Railway\Validations;
  *
  * @category   Tests
  * @package    Railway Validations
- * @author     Martin Alsinet <martin@alsinet.com.ar>
+ * @author     Martin Alsinet <martin@alsinet>
  * @copyright  2016 @MartinAlsinet
  * @license    MIT License
  * @version    Release: 0.1.0
